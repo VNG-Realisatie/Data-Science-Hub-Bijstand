@@ -9,8 +9,7 @@ Dit R-script maakt inzichtelijk hoe de uitstroom van bijstandsclienten verloopt 
 -leeftijdsklasse - geslacht combo 
 -cohort per aantal jaren na start 
 
-Het R-script is voorzien van een dummy-databestand en codelijst 'oorzaak bijstandsafhankelijkheid' om te oefenen
-met dit R-script. 
+Het R-script is voorzien van een dummy-databestand en codelijst 'oorzaak bijstandsafhankelijkheid' om te oefenen. 
 
 Het materiaal is beschikbaar gesteld door Luc van Schijndel, gemeente Nissewaard
 
