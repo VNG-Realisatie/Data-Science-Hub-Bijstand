@@ -3,14 +3,14 @@
 # data import, -preparation, -visualisation 
 # auteur : Luc van Schijndel, gemeente Nissewaard
 # modificaties : Mark Gremmen, Data Science Hub / VNG
-# lud 2019-03-20
+# lud 2019-03-27
 #-------------------------------------------------------------------------------
 
 
 # Libraries
 
 #packages
-packages <- c("haven","tidyverse", "lubridate", "readxl", "forcats")
+packages <- c("haven","tidyverse", "lubridate", "readxl")
 #if packages are not available on your computing set-up then remove bracket from next line, and afterwards re-instate bracket
 #install.packages(packages)
 lapply(packages,library,character.only = TRUE)
@@ -45,7 +45,10 @@ bijstands_jaren=period_end-period_start
 #onderwerp inclusief jaargang analyse
 subject.nme <- paste0(subject,' ', period_end)
 
-# Lees bestand in met omschrijvingen voor code oorzaak bijstandsafhankelijkheid
+#-------------------------------------------------------------------------------
+# Data import
+
+# Lees xlsx-datasheet in met omschrijvingen voor code oorzaak bijstandsafhankelijkheid
 # Pas de range aan zodat deze de kolommen met daarin de code (numeriek) en omschrijving (tekst) omvat
 
 description.loc <- paste0(data.loc,"2018-07-09 Code oorzaak bijstandsafhandelijkheid.xlsx") #aanpassen
@@ -72,13 +75,13 @@ BijstandBron <-  read_rds(population.loc)
 # Optie IV : IBM SPSS (sav) 
 #BijstandBron <- read_spss(population.loc)
 
-
-#meta-data
+#meta-data (before)
 str(BijstandBron)
 #head(BijstandBron)
 
 #-------------------------------------------------------------------------------
 # Data preparation
+
 
 BijstandAnalyse <- BijstandBron %>%
                 mutate(instroomjaar = year(startdatum), # nieuwe kolom instroomjaar,
@@ -109,8 +112,7 @@ rm(BijstandBron)
 #omschrijvingen verwijderen uit het geheugen 
 rm(BijstandOmschrijvingReden)
 
-
-#meta-data
+#meta-data (after)
 str(BijstandAnalyse)
 #head(BijstandAnalyse)
 
@@ -118,7 +120,6 @@ sapply(BijstandAnalyse, function(x) sum(is.na(x)))
 
 #-------------------------------------------------------------------------------
 # Data analyse
-
 
 
 # Bereken percentage nog actieve uitkeringen per instroomreden per jaar
