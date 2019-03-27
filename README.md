@@ -2,7 +2,7 @@
 Sturen op bijstand
 
 
-In April start het traject 'Sturen op bijstand' via het Data Science Hub van VNG Realisatie. Daarin bieden we gemeenten de mogelijkheid om snel inzicht te verkrijgen in de bestandsopbouw van de registratie voor bijstandsgerechtigden.
+In April 2019 start het traject 'Sturen op bijstand' via het Data Science Hub van VNG Realisatie. Daarin bieden we gemeenten de mogelijkheid om snel inzicht te verkrijgen in de bestandsopbouw van de registratie voor bijstandsgerechtigden.
 
  
 
