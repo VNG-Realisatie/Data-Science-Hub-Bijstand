@@ -38,11 +38,9 @@ Meedoen?!
 
 Geef je dan snel op bij John van Ameijde, john.vanameijde@vng.nl.
 
- 
 
-Beschikbaar materiaal
 
-Project Sturen op Bijstand (VNG-Forum Data Science Hub)
+#-----------------------------------------------------------------------------------------------------
 
 Dit R-script maakt inzichtelijk hoe de uitstroom van bijstandsclienten verloopt:
 
