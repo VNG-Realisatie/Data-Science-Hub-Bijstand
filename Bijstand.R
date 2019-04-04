@@ -20,8 +20,15 @@ sessionInfo()
 #-------------------------------------------------------------------------------
 # Global settings
 
-#onderwerp en jaargang analyse
-subject <- paste0('Analyse Bijstand') 
+#gemeentenaam
+gemeente <- "gemeente X"
+#onderwerp analyse
+analyse <- "Bijstand"
+
+#analyse / presentatie periode
+period_start <- 2008 #aanpassen
+period_end <- 2018 #aanpassen
+bijstands_jaren=period_end-period_start
 
 #root locatie van deze procedure (workdirectory)
 root <- getwd()
@@ -37,13 +44,8 @@ plots.loc <- paste0(root,'/PLOTS/')
 graph_height <- 8
 aspect_ratio <- 2.5 # breedte = graph_height * aspect_ratio
 
-#analyse / presentatie periode
-period_start <- 2008 #aanpassen
-period_end <- 2018 #aanpassen
-bijstands_jaren=period_end-period_start
-
-#onderwerp inclusief jaargang analyse
-subject.nme <- paste0(subject,' ', period_end)
+#prefix titel grafieken 
+subject.nme <- paste0(analyse,' ', period_end, ' ', gemeente, ' ')
 
 #-------------------------------------------------------------------------------
 # Data import
