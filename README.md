@@ -22,7 +22,7 @@ Looptijd: begin April tot en met de tweede week van Mei
 
 Bijeenkomst(en):
 
-Webinar 25 april 9.30-10.30h
+Webinar 25 april 10.00-10.30h
 
 (Slot)bijeenkomst 16 mei 9.30-12.00h (Data Science Hub @ JADS in Den Bosch)
 
@@ -45,9 +45,10 @@ Geef je dan snel op bij John van Ameijde, john.vanameijde@vng.nl.
 _________________________________________________________________________________________________________________________________
 
 
-Dit R-script maakt inzichtelijk hoe de uitstroom van bijstandsclienten verloopt:
+Dit R-script maakt inzichtelijk hoe de opbouw van het klantenbestand er uitziet alsmede het verloop van de uitstroom van bijstandsclienten:
 
-6 visualisaties:
+7 visualisaties:
+-opbouw klantenbestand naar leeftijd, leefvorm
 -instroomreden
 -leefvorm
 -geslacht 
