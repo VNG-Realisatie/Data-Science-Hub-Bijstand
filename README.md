@@ -45,7 +45,7 @@ Geef je dan snel op bij John van Ameijde, john.vanameijde@vng.nl.
 _________________________________________________________________________________________________________________________________
 
 
-Dit R-script maakt inzichtelijk hoe de opbouw van het klantenbestand er uitziet alsmede het verloop van de uitstroom van bijstandsclienten:
+Dit R-script maakt inzichtelijk hoe de opbouw van het klantenbestand er uitziet alsmede het verloop van de uitstroom van bijstandsclienten door de jaren heen:
 
 7 visualisaties:
 -opbouw klantenbestand naar leeftijd, leefvorm
