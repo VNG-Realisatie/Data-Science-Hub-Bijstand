@@ -3,9 +3,8 @@
 # data import, -preparation, -visualisation 
 # auteur : Luc van Schijndel, gemeente Nissewaard
 # modificaties : Mark Gremmen, Data Science Hub / VNG
-# lud 2019-03-27
+# lud 2019-04-23
 #-------------------------------------------------------------------------------
-
 
 # Libraries
 
@@ -21,7 +20,7 @@ sessionInfo()
 # Global settings
 
 #gemeentenaam
-gemeente <- "gemeente X"
+gemeente <- "gemeente XXX"
 #onderwerp analyse
 analyse <- "Bijstand"
 
@@ -50,6 +49,8 @@ subject.nme <- paste0(analyse,' ', period_end, ' ', gemeente, ' ')
 #-------------------------------------------------------------------------------
 # Data import
 
+
+# I. Omschrijvingen 
 # Lees xlsx-datasheet in met omschrijvingen voor code oorzaak bijstandsafhankelijkheid
 # Pas de range aan zodat deze de kolommen met daarin de code (numeriek) en omschrijving (tekst) omvat
 
@@ -59,7 +60,21 @@ BijstandOmschrijvingReden <- read_excel(description.loc,
                                         range = "A2:B34", col_names = TRUE, 
                                         col_types = c("numeric", "text"))
 
-# Lees bestand in met gegevens van bijstandsuitkeringen (3 opties)
+# II. Klantenbestand
+#minimaal omvast het klantenbestand onderstaande variabelen met exact de namen:
+#geboortejaar, geslacht, startdatum, einddatum, Omschrijving leefvorm
+
+#voorbeeld : 
+#geboortejaar (1976)
+#geslacht (man)\
+#startdatum (2008-05-04)
+#einddatum (2008-08-04)
+#Omschrijving leefvorm (Alleenstaande)
+#Oorzaak bijstandsafhankelijkheid (code)
+
+
+# Lees het klantenbestand in met gegevens van bijstandsuitkering
+#(3 opties)
 # Pas bestandsnaam en -extensie (rds,csv,xlsx,sav) aan. Default = rds
 
 population.loc <- paste0(data.loc,"DummyDataBijstandv3.rds") #aanpassen
@@ -124,8 +139,29 @@ sapply(BijstandAnalyse, function(x) sum(is.na(x)))
 # Data analyse
 
 
-# Bereken percentage nog actieve uitkeringen per instroomreden per jaar
+# Bestand (abs.) naar leeftijd en leefvorm
+LeeftijdLeefvorm <- subset(BijstandAnalyse,Actief=='TRUE') %>%
+                      group_by(LeeftijdsKlasse, `Omschrijving leefvorm`) %>%
+                      summarize(SumActief = sum(Actief))
 
+
+# Grafiek leeftijd en leefvorm bijstandsgerechtigden
+plot.title = paste0(subject.nme,' Leeftijd en leefvorm',' ')
+
+LeeftijdLeefvormplot <- ggplot(LeeftijdLeefvorm, aes(y=SumActief, x=LeeftijdsKlasse, color=LeeftijdsKlasse, fill=LeeftijdsKlasse)) + 
+  geom_bar( stat="identity") +    
+  facet_wrap(~`Omschrijving leefvorm`) + 
+  ggtitle(plot.title)
+
+LeeftijdLeefvormplot
+plot.nme = paste0(plot.title,'.png')
+plot.store <-paste0(plots.loc,plot.nme)
+ggsave(plot.store, height = graph_height , width = graph_height * aspect_ratio)
+
+
+
+
+# Bereken percentage nog actieve uitkeringen per instroomreden per jaar
 InstroomPerRedenPerJaar <- BijstandAnalyse %>%
                               group_by(instroomjaar, `Omschrijving oorzaak bijstandsafhankelijkheid`) %>%
                               summarize(PercentageActief = mean(Actief))
