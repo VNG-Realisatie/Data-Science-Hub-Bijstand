@@ -61,17 +61,17 @@ BijstandOmschrijvingReden <- read_excel(description.loc,
                                         col_types = c("numeric", "text"))
 
 # II. Klantenbestand
-#minimaal omvast het klantenbestand onderstaande variabelen met exact de namen:
+#minimaal omvat de dataset van het klantenbestand onderstaande variabelen met exact de volgende 
+#variabelenamen:
 #geboortejaar, geslacht, startdatum, einddatum, Omschrijving leefvorm
 
 #voorbeeld : 
 #geboortejaar (1976)
-#geslacht (man)\
+#geslacht (man)
 #startdatum (2008-05-04)
 #einddatum (2008-08-04)
 #Omschrijving leefvorm (Alleenstaande)
 #Oorzaak bijstandsafhankelijkheid (code)
-
 
 # Lees het klantenbestand in met gegevens van bijstandsuitkering
 #(3 opties)
@@ -116,8 +116,8 @@ BijstandAnalyse <- BijstandBron %>%
 
 BijstandAnalyse <- BijstandAnalyse %>%
   merge(BijstandOmschrijvingReden, # Voeg omschrijving oorzaak bijstandsafhankelijkheid toe
-        by.x = "Oorzaak bijstandsafhankelijkheid",
-        by.y = "Code oorzaak bijstandsafhankelijkheid",
+        by.x = "Oorzaak bijstandsafhankelijkheid", #variabelenaam conform de dataset klantenbestand
+        by.y = "Code oorzaak bijstandsafhankelijkheid", #variabelenaam conform dataset omschrijvingen
         all.x = TRUE, all.y = FALSE) 
 
 # Opslaan van het bewerkte bronbestand 
