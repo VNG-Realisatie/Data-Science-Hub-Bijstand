@@ -9,18 +9,21 @@
 # Libraries
 
 #packages
-packages <- c("haven","tidyverse", "lubridate", "readxl")
-#if packages are not available on your computing set-up then remove bracket from next line, and afterwards re-instate bracket
-#install.packages(packages)
+packages <- c("haven","tidyverse", "lubridate", "readxl", "rmarkdown", "knitr")
+#installeer de packages die (nog) niet aanwezig zijn 
+has_available   <- packages %in% rownames(installed.packages())
+if(any(!has_available)) install.packages(packages[!has_available])
+
 lapply(packages,library,character.only = TRUE)
-#review
-sessionInfo()
+
+#review R statistics setup
+#sessionInfo()
 
 #-------------------------------------------------------------------------------
 # Global settings
 
 #gemeentenaam
-gemeente <- "gemeente XXX"
+gemeente <- "gemeente XXX" #aanpassen
 #onderwerp analyse
 analyse <- "Bijstand"
 
@@ -51,8 +54,9 @@ subject.nme <- paste0(analyse,' ', period_end, ' ', gemeente, ' ')
 
 
 # I. Omschrijvingen 
-# Lees xlsx-datasheet in met omschrijvingen voor code oorzaak bijstandsafhankelijkheid
-# Pas de range aan zodat deze de kolommen met daarin de code (numeriek) en omschrijving (tekst) omvat
+# Lees xlsx-datasheet in met omschrijvingen bijstandsafhankelijkheid
+# Pas de range aan zodat deze de kolommen met daarin de variabelen 'Code oorzaak bijstandsafhankelijkheid' (numeriek) 
+# en 'Omschrijving oorzaak bijstandsafhankelijkheid' (tekst) omvat
 
 description.loc <- paste0(data.loc,"2018-07-09 Code oorzaak bijstandsafhandelijkheid.xlsx") #aanpassen
 
@@ -164,13 +168,14 @@ ggsave(plot.store, height = graph_height , width = graph_height * aspect_ratio)
 # Bereken percentage nog actieve uitkeringen per instroomreden per jaar
 InstroomPerRedenPerJaar <- BijstandAnalyse %>%
                               group_by(instroomjaar, `Omschrijving oorzaak bijstandsafhankelijkheid`) %>%
-                              summarize(PercentageActief = mean(Actief))
+                              summarize(PercentageActief = mean(Actief)*100)
 
 # Grafiek van percentage nog actieve uitkeringen per instroomreden per jaar
 plot.title = paste0(subject.nme,' Actieve uitkeringen per instroomreden',' ')
 
 InstroomRedenPercActiefplot <- ggplot(InstroomPerRedenPerJaar, aes(x = instroomjaar, y = PercentageActief,
                                                           colour = factor(`Omschrijving oorzaak bijstandsafhankelijkheid`))) +
+  ylim(0, 100) +
   ggtitle(plot.title) +
   geom_line(size = 1) + scale_x_reverse(breaks = period_start:period_end) + theme(legend.title = element_blank(),
                                                                     legend.position = c(0.8, 0.77))
@@ -186,7 +191,7 @@ ggsave(plot.store, height = graph_height , width = graph_height * aspect_ratio)
 
 InstroomPerLeefvormPerJaar <- BijstandAnalyse %>%
                               group_by(instroomjaar, `Omschrijving leefvorm`) %>%
-                              summarize(PercentageActief = mean(Actief))
+                              summarize(PercentageActief = mean(Actief)*100)
 
 
 # Grafiek van percentage nog actieve uitkeringen per leefvorm per jaar
@@ -194,6 +199,7 @@ plot.title = paste0(subject.nme,' Actieve uitkeringen per leefvorm',' ')
 
 LeefvormPercActiefplot <- ggplot(InstroomPerLeefvormPerJaar, aes(x = instroomjaar, y = PercentageActief,
                                                                  colour = factor(`Omschrijving leefvorm`))) +
+  ylim(0, 100) +
   ggtitle(plot.title) +
   geom_line(size = 1) + scale_x_reverse(breaks = period_start:period_end) + theme(legend.title = element_blank(),
                                                   legend.position = c(0.8, 0.77))
@@ -209,13 +215,14 @@ ggsave(plot.store, height = graph_height , width = graph_height * aspect_ratio)
 
 InstroomPerGeslachtPerJaar <- BijstandAnalyse %>%
                               group_by(instroomjaar, geslacht) %>%
-                              summarize(PercentageActief = mean(Actief))
+                              summarize(PercentageActief = mean(Actief)*100)
 
 # Grafiek van percentage nog actieve uitkeringen per geslacht per jaar
 plot.title = paste0(subject.nme,' Actieve uitkeringen per geslacht',' ')
 
 GeslachtPercActiefplot <- ggplot(InstroomPerGeslachtPerJaar, aes(x = instroomjaar, y = PercentageActief,
                                                                  colour = geslacht)) +
+  ylim(0, 100) +
   ggtitle(plot.title) +
   geom_line(size = 1) + scale_x_reverse(breaks = period_start:period_end) + theme(legend.title = element_blank(),
                                                   legend.position = c(0.8, 0.77))
@@ -231,13 +238,14 @@ ggsave(plot.store, height = graph_height , width = graph_height * aspect_ratio)
 
 InstroomPerLeeftijdsklassePerJaar <- BijstandAnalyse %>%
   group_by(instroomjaar, LeeftijdsKlasse) %>%
-  summarize(PercentageActief = mean(Actief))
+  summarize(PercentageActief = mean(Actief)*100)
 
 # Grafiek van percentage nog actieve uitkeringen per leeftijdsklasse per jaar
 plot.title = paste0(subject.nme,' Actieve uitkeringen per leeftijdsklasse',' ')
 
 LeeftijdsklassePercActiefplot <- ggplot(InstroomPerLeeftijdsklassePerJaar, aes(x = instroomjaar, y = PercentageActief,
                                                                  colour = LeeftijdsKlasse)) +
+  ylim(0, 100) +
   ggtitle(plot.title) +
   geom_line(size = 1) + scale_x_reverse(breaks = period_start:period_end) + theme(legend.title = element_blank(),
                                                   legend.position = c(0.8, 0.77))
@@ -253,13 +261,14 @@ ggsave(plot.store, height = graph_height , width = graph_height * aspect_ratio)
 
 InstroomPerLeeftijdGeslachtPerJaar <- BijstandAnalyse %>%
   group_by(instroomjaar, LeeftijdGeslacht) %>%
-  summarize(PercentageActief = mean(Actief))
+  summarize(PercentageActief = mean(Actief)*100)
 
 # Grafiek van percentage nog actieve uitkeringen per Leeftijdsklasse - geslacht combinate per jaar
 plot.title = paste0(subject.nme,' Actieve uitkeringen per leeftijdsklasse - geslacht combo',' ')
 
 LeeftijdGeslachtPercActiefplot <- ggplot(InstroomPerLeeftijdGeslachtPerJaar, aes(x = instroomjaar, y = PercentageActief,
                                                                                colour = LeeftijdGeslacht)) +
+  ylim(0, 100) +
   ggtitle(plot.title) +
   geom_line(size = 1) + scale_x_reverse(breaks = period_start:period_end) + theme(legend.title = element_blank(),
                                                   legend.position = c(0.8, 0.77))
@@ -290,7 +299,7 @@ BijstandAnalyseCohortenAlt <- BijstandAnalyse %>%
                            gather(key = "Jaren in Bijstand", value = "Actief", -instroomjaar) %>%
                            mutate(`Jaren in Bijstand` = parse_number(`Jaren in Bijstand`)) %>%
                            group_by(instroomjaar, `Jaren in Bijstand`) %>%
-                           summarize(PercActief = mean(Actief))
+                           summarize(PercActief = mean(Actief)*100)
 # opslaan bijgewerkte analysebestand
 write_rds(BijstandAnalyse, analyse.loc,compress = "none")
 
@@ -299,6 +308,7 @@ plot.title = paste0(subject.nme,' Actieve uitkeringen per cohort per aantal jare
 
 PercActiefCohortplot <- ggplot(BijstandAnalyseCohortenAlt, aes(x = `Jaren in Bijstand`, y = PercActief,
                                                                colour = factor(instroomjaar))) +
+  ylim(0, 100) +
   ggtitle(plot.title) +
   scale_x_continuous(breaks = seq(1, bijstands_jaren, 1), lim = c(1, bijstands_jaren)) +
   geom_line(size = 1) + theme(legend.title = element_blank(),
