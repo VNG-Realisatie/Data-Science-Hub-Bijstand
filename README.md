@@ -75,7 +75,9 @@ Het script maakt gebruik van twee databestanden:
  1. het databestand met klantregistratie (er zijn verschillende methoden in het script om bestandstypen in te lezen),
  2. de xsl-sheet met daarin de omschrijvingen
 Plaats beide bestanden in de map "DATA" en pas de namen van beide bestanden aan in het script. 
+
 Pas vervolgens de overige instellingen bovenin het script aan (w.o. analyseperiode)
+
 Ten slotte, run de code  
 
 *) Markdown versie van het R-statistics script: hierin is een meer uitvoerige beschrijving van de procedure opgenomen. Het biedt aanvullend de mogelijkheid om een output file in html te genereren waarin uiteenzetting, code, en visualisatie samenkomen.  
