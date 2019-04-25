@@ -2,7 +2,7 @@
 Sturen op bijstand
 
 
-In April 2019 start het traject 'Sturen op bijstand' via het Data Science Hub van VNG Realisatie. Daarin bieden we gemeenten de mogelijkheid om snel inzicht te verkrijgen in de bestandsopbouw van de registratie voor bijstandsgerechtigden.
+Eind April 2019 start het traject 'Sturen op bijstand' via het Data Science Hub van VNG Realisatie. Daarin bieden we gemeenten de mogelijkheid om snel inzicht te verkrijgen in de bestandsopbouw van de registratie voor bijstandsgerechtigden.
 
  
 
@@ -28,7 +28,7 @@ Webinar 25 april 10.00-10.30h
 
 
 Wat vraagt deelname van een gemeente?
--basisvaardigheden in en infrastructuur voor het gebruik van R Statistics
+-basisvaardigheden in en infrastructuur voor het gebruik van R Statistics & R Studio
 -afvaardiging van twee personen (analist en inhoudsdeskundige/beleidsmedewerker)
 -toepassen van het script op eigen klantenbestand
 -delen van de inzichten
@@ -60,17 +60,15 @@ Het R-script is voorzien van beschrijving alsmede een dummy-databestand en codel
 
 Het materiaal is beschikbaar gesteld door Luc van Schijndel, gemeente Nissewaard.
 
-Aanvullingen en opmerkingen op het script kunnen in deze repository gedeeld worden.
+De ondersteuning en begeleiding in dit project is ondergebracht bij het Data Science Hub van VNG Realisatie. Voor meer informatie, opmerkingen en vragen over dit project, ga naar: https://forum.vng.nl/ (aanmelden voor forum: Data Science Hub) Zie vervolgens het menu-item projecten.
 
-De ondersteuning en begeleiding in dit project is ondergebracht bij het Data Science Hub van VNG Realisatie.
 
-Voor meer informatie over dit project: https://forum.vng.nl/ (aanmelden voor forum: Data Science Hub)
 
 
 _________________________________________________________________________________________________________________________________
 
 
-Voor de analyse vormt het R Statistics bestand 'Bijstand.R' het uitgangspunt.
+Voor de analyse vormt het R Statistics bestand 'Bijstand-MD.Rmd'*  het uitgangspunt.
 Maak allereerst twee mappen aan op de locatie waar het script wordt geplaatst:
 "DATA" en "PLOTS"
 Het script maakt gebruik van twee databestanden: 1. het databestand met klantregistratie (er zijn verschillende methoden in het script om bestandstypen in te lezen),
@@ -80,3 +78,5 @@ Controleer of de gedeclareerde packages in R omgeving beschikbaar zijn. Zo niet 
 de relevante regel die de installatie verzorgt.
 Pas vervolgens de overige instellingen bovenin het script aan (w.o. analyseperiode)
 Ten slotte, run de code  
+
+*) Markdown versie van het R-statistics script: hierin is een meer uitvoerige beschrijving van de procedure opgenomen. Het biedt aanvullend de mogelijkheid om een output file in html te genereren waarin uiteenzetting, code, en visualisatie samenkomen.  
