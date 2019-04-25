@@ -71,11 +71,10 @@ ________________________________________________________________________________
 Voor de analyse vormt het R Statistics bestand 'Bijstand-MD.Rmd'*  het uitgangspunt.
 Maak allereerst twee mappen aan op de locatie waar het script wordt geplaatst:
 "DATA" en "PLOTS"
-Het script maakt gebruik van twee databestanden: 1. het databestand met klantregistratie (er zijn verschillende methoden in het script om bestandstypen in te lezen),
+Het script maakt gebruik van twee databestanden: 
+ 1. het databestand met klantregistratie (er zijn verschillende methoden in het script om bestandstypen in te lezen),
  2. de xsl-sheet met daarin de omschrijvingen
-Pas de namen van beide bestanden aan in het script. 
-Controleer of de gedeclareerde packages in R omgeving beschikbaar zijn. Zo niet installeer deze middels het tijdelijk verwijderen van de bracket (#) bij
-de relevante regel die de installatie verzorgt.
+Plaats beide bestanden in de map "DATA" en pas de namen van beide bestanden aan in het script. 
 Pas vervolgens de overige instellingen bovenin het script aan (w.o. analyseperiode)
 Ten slotte, run de code  
 
