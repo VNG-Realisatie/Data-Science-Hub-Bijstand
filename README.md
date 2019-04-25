@@ -78,6 +78,6 @@ Plaats beide bestanden in de map "DATA" en pas de namen van beide bestanden aan 
 
 Pas vervolgens de overige instellingen bovenin het script aan (w.o. analyseperiode)
 
-Ten slotte, run de code  
+Ten slotte, run de code via de 'knitr' functie bovenaan in de interface.
 
 *) Markdown versie van het R-statistics script: hierin is een meer uitvoerige beschrijving van de procedure opgenomen. Het biedt aanvullend de mogelijkheid om een output file in html te genereren waarin uiteenzetting, code, en visualisatie samenkomen.  
