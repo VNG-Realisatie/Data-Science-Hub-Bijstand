@@ -12,23 +12,25 @@ author: Luc van Schijndel
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Bestandsanalyse Bijstand
-
-In het traject 'Sturen op bijstand' - een samenwerking van de gemeente Nissewaard en het Data Science Hub (VNG) - bieden we gemeenten de mogelijkheid om snel inzicht te verkrijgen in de bestandsopbouw van de registratie voor bijstandsgerechtigden.
-
-Dit kant-en-klaar basisscript voor R-Statistics geeft het verloop van het klantenbestand Bijstand in de tijd weer op basis van de belangrijkste kenmerken en omstandigheden van een bijstandsgerechtigde. Het script vormt een uitgangspunt om direct het eigen klantenbestand te analyseren en aanvullende inzichten in te beleggen. De uniforme opzet en output maakt dat de inzichten ook goed te vergelijken zijn met andere gemeenten.
-
-Voor de analyse vormt het R Statistics bestand 'Bijstand.R' het uitgangspunt. Maak allereerst twee mappen aan op de locatie waar het script wordt geplaatst: "DATA" en "PLOTS" Het script maakt gebruik van twee databestanden: 1. het databestand met klantregistratie (er zijn verschillende methoden in het script om bestandstypen in te lezen), 2. de xsl-sheet met daarin de omschrijvingen. Pas de namen van beide bestanden aan in het script. Pas vervolgens de overige instellingen bovenin het script aan (w.o. analyseperiode) Ten slotte, run de code
-
 ```{r author,results='hide', include=FALSE, message=FALSE, warning=FALSE}
 #-------------------------------------------------------------------------------
 # Analyse Bijstand
 # data import, -preparation, -visualisation 
 # auteur : Luc van Schijndel, gemeente Nissewaard
 # modificaties : Mark Gremmen, Data Science Hub / VNG
-# lud 2019-04-23
-#-------------------------------------------------------------------------------
+# lud 2019-05-06
+#
+# LET OP : alle parameters die moeten worden aangepast zijn gemarkeerd met hashtag 'aanpassen'
+#------------------------------------------------------------------------------
 ```
+
+Bestandsanalyse Bijstand
+
+In het traject 'Sturen op bijstand' - een samenwerking van de gemeente Nissewaard en het Data Science Hub (VNG) - bieden we gemeenten de mogelijkheid om snel inzicht te verkrijgen in de bestandsopbouw van de registratie voor bijstandsgerechtigden.
+
+Dit kant-en-klaar basisscript voor R-Statistics geeft het verloop van het klantenbestand Bijstand in de tijd weer op basis van de belangrijkste kenmerken en omstandigheden van een bijstandsgerechtigde. Het script vormt een uitgangspunt om direct het eigen klantenbestand te analyseren en aanvullende inzichten in te beleggen. De uniforme opzet en output maakt dat de inzichten ook goed te vergelijken zijn met andere gemeenten.
+
+Voor de analyse vormt het R Statistics bestand 'Bijstand-MD.R' het uitgangspunt. Maak allereerst twee mappen aan op de locatie waar het script wordt geplaatst: "DATA" en "PLOTS" Het script maakt gebruik van twee databestanden: 1. het databestand met klantregistratie (er zijn verschillende methoden in het script om bestandstypen in te lezen), 2. de xsl-sheet met daarin de omschrijvingen. Pas de namen van beide bestanden aan in het script. Pas vervolgens de overige instellingen bovenin het script aan (w.o. analyseperiode) Ten slotte, run de code
 
 
 ##Libraries
@@ -57,6 +59,7 @@ gemeente <- "gemeente XXX" #aanpassen
 #onderwerp analyse
 analyse <- "Bijstand"
 
+
 #analyse / presentatie periode
 period_start <- 2008 #aanpassen
 period_end <- 2018 #aanpassen
@@ -79,8 +82,8 @@ aspect_ratio <- 2.5 # breedte = graph_height * aspect_ratio
 #prefix titel grafieken 
 subject.nme <- paste0(analyse,' ', period_end, ' ', gemeente, ' ')
 
-#value label : SumActief or PercentageActief
-val_lab <- geom_text(aes(label=SumActief), vjust=0)
+#value labels in de grafieken  : SumActief (aantallen) or PercentageActief (percentages)
+val_lab <- geom_text(aes(label=SumActief), vjust=0) #aanpassen
 
 ```
 
@@ -90,51 +93,81 @@ val_lab <- geom_text(aes(label=SumActief), vjust=0)
 ```{r import, results='hide', message=FALSE, warning=FALSE}
 
 # I. Omschrijvingen 
-# Lees xlsx-datasheet in met omschrijvingen bijstandsafhankelijkheid
+# Lees xlsx-datasheet in met omschrijvingen bijstandsafhankelijkheid (vanuit de folder 'DATA')
 # Pas de range aan zodat deze de kolommen met daarin de variabelen 'Code oorzaak bijstandsafhankelijkheid' (numeriek) 
 # en 'Omschrijving oorzaak bijstandsafhankelijkheid' (tekst) omvat
 
-description.loc <- paste0(data.loc,"2018-07-09 Code oorzaak bijstandsafhandelijkheid.xlsx") #aanpassen
+#minimaal omvat de dataset van de omschrijvingen onderstaande variabelen met exact de volgende 
+#variabelenamen:
+#Code oorzaak bijstandsafhankelijkheid, Omschrijving oorzaak bijstandsafhankelijkheid
+ 
+description.loc <- paste0(data.loc,"2018-07-09 Code oorzaak bijstandsafhandelijkheid.xlsx") #aanpassen bestandsnaam en -extensie
 
 BijstandOmschrijvingReden <- read_excel(description.loc,
                                         range = "A2:B34", col_names = TRUE, 
                                         col_types = c("numeric", "text"))
 
-# II. Klantenbestand
-#minimaal omvat de dataset van het klantenbestand onderstaande variabelen met exact de volgende 
+
+
+
+# II. Dosiers
+#minimaal omvat de dataset van het dossierbestand (exact) de volgende 
 #variabelenamen:
-#geboortejaar, geslacht, startdatum, einddatum, Omschrijving leefvorm
+#Clientnummer, geboortejaar, geslacht, Kode groep, Startdatum periodiek algemeen, 
+#Einddatum periodiek algemeen, Oorspronkelijke begindatum uitkeringsdossier, 
+#Omschrijving leefvorm, Oorzaak bijstandsafhankelijkheid
 
 #voorbeeld : 
+#Clientnummer (12464545)
 #geboortejaar (1976)
 #geslacht (man)
-#startdatum (2008-05-04)
-#einddatum (2008-08-04)
-#Omschrijving leefvorm (Alleenstaande)
-#Oorzaak bijstandsafhankelijkheid (code)
+#Kode groep (02) (definitie : BASIS PERSONEN 21 – 64)
+#Startdatum periodiek algemeen (2008-05-04)
+#Einddatum periodiek algemeen (2008-08-04) 
+#Oorspronkelijke begindatum uitkeringsdossier (2008-05-06)
+#Omschrijving leefvorm (Alleenstaande) 
+#Oorzaak bijstandsafhankelijkheid (code) (zie variabele 'Code oorzaak bijstandsafhankelijkheid' uit de sheetoorzaak bijstandsafhankelijkheid)
 
-# Lees het klantenbestand in met gegevens van bijstandsuitkering
-#(3 opties)
-# Pas bestandsnaam en -extensie (rds,csv,xlsx,sav) aan. Default = rds
-
-population.loc <- paste0(data.loc,"DummyDataBijstandv3.rds") #aanpassen
+bestand.loc <- paste0(data.loc,"2019-05-03 SZDOS selectie traject bijstand VNG Kode regeling 0 Kode groep 02 Gemeente 1930.xlsx") #aanpassen bestandsnaam en -extensie
 
 
-# Optie I : R-data (rds)
-BijstandBron <-  read_rds(population.loc)
+# Optie I : Excel (xlsx)
+BijstandBron <- read_excel(file=bestand.loc, col_names = TRUE)
 
 # Optie II : Comma separated values (csv)
-#BijstandBron <- read.csv(file=population.loc, header=TRUE, sep=",")
+#BijstandBron <- read.csv(file=bestand.loc, header=TRUE, sep=",")
 
-# Optie III : Microsoft Excel (Xlsx)
-#BijstandBron <- read_excel(file=population.loc, col_names = TRUE)
+# Optie III : IBM SPSS (sav) 
+#BijstandBron <- read_spss(bestand.loc)
 
-# Optie IV : IBM SPSS (sav) 
-#BijstandBron <- read_spss(population.loc)
+# Optie IV : R-data (rds)
+#BijstandBron <-  read_rds(bestand.loc)
 
-#meta-data (before)
-str(BijstandBron)
-#head(BijstandBron)
+#eventueel filter variabelen aanpassen
+Bijstandsdossiers <- BijstandBron %>%
+                      filter(!is.na(Clientnummer) &
+                       `Kode groep` == "02" &
+                      !is.na('Startdatum periodiek algemeen')  )
+
+
+BijstandsUitkeringen <- Bijstandsdossiers %>%
+                     mutate(Clientnummer_startdatum = paste(Clientnummer, `Oorspronkelijke begindatum uitkeringsdossier`, sep = "_")) %>%
+                     arrange(Clientnummer_startdatum, `Startdatum periodiek algemeen`) %>%
+                     group_by(Clientnummer, Clientnummer_startdatum) %>%
+                     summarise(startdatum = first(`Startdatum periodiek algemeen`),
+                               einddatum = last(`Einddatum periodiek algemeen`),
+                               `Oorspronkelijke leefvorm` = first(`Omschrijving leefvorm`),
+                               `Alle leefvormen` = paste(unique(`Omschrijving leefvorm`), collapse = (", ")),
+                               `Oorzaak bijstandsafhankelijkheid` = first(`Oorzaak bijstandsafhankelijkheid`),
+                               `Oorspronkelijke begindatum uitkeringsdossier` = unique(`Oorspronkelijke begindatum uitkeringsdossier`),
+                               `Aantal dossiers` = n()) %>%
+                     ungroup()
+
+#controleer dit bestand goed 
+str(BijstandsUitkeringen)
+head(BijstandsUitkeringen)
+
+
 
 
 ```
@@ -143,7 +176,7 @@ str(BijstandBron)
 
 ```{r preparation, results='hide', message=FALSE, warning=FALSE}
 
-BijstandAnalyse <- BijstandBron %>%
+BijstandAnalyse <- BijstandsUitkeringen %>%
                 mutate(instroomjaar = year(startdatum), # nieuwe kolom instroomjaar,
                        leeftijd = year(as.period(interval(as.POSIXct(paste0(geboortejaar, "-07-01"), tz = "UTC"),
                                            startdatum))),
@@ -157,9 +190,10 @@ BijstandAnalyse <- BijstandBron %>%
                          is.na(einddatum) ~ TRUE,
                          TRUE ~ FALSE))
 
+#aanpassen (indien beschrijvingen al aanwezig zijn in BijstandBron dan kan de merge procedure worden uitgeschakeld)
 BijstandAnalyse <- BijstandAnalyse %>%
   merge(BijstandOmschrijvingReden, # Voeg omschrijving oorzaak bijstandsafhankelijkheid toe
-        by.x = "Oorzaak bijstandsafhankelijkheid", #variabelenaam conform de dataset klantenbestand
+        by.x = "Oorzaak bijstandsafhankelijkheid", #variabelenaam conform de dataset dossiers
         by.y = "Code oorzaak bijstandsafhankelijkheid", #variabelenaam conform dataset omschrijvingen
         all.x = TRUE, all.y = FALSE) 
 
@@ -174,7 +208,7 @@ rm(BijstandOmschrijvingReden)
 
 #meta-data (after)
 str(BijstandAnalyse)
-#head(BijstandAnalyse)
+head(BijstandAnalyse)
 
 sapply(BijstandAnalyse, function(x) sum(is.na(x)))
 
