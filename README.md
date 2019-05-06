@@ -24,7 +24,7 @@ Bijeenkomst(en):
 
 Webinar 25 april 10.00-10.30h
 
-(Slot)bijeenkomst 16 mei 9.30-12.00h (Data Science Hub @ JADS in Den Bosch)
+(Slot)bijeenkomst eind mei 9.30-12.00h (Data Science Hub @ JADS in Den Bosch)
 
 
 Wat vraagt deelname van een gemeente?
@@ -80,4 +80,5 @@ Pas vervolgens de overige instellingen bovenin het script aan (w.o. analyseperio
 
 Ten slotte, run de code via de 'knitr' functie bovenaan in de interface.
 
-*) Markdown versie van het R-statistics script: hierin is een meer uitvoerige beschrijving van de procedure opgenomen. Het biedt aanvullend de mogelijkheid om een output file in html te genereren waarin uiteenzetting, code, en visualisatie samenkomen.  
+*) Markdown versie: Hierin is een meer uitvoerige beschrijving van de procedure opgenomen. Het biedt aanvullend de mogelijkheid om een output file in html te genereren waarin uiteenzetting, code, en visualisatie samenkomen. 
+Bijstand-testversie-MD.Rmd is een vereenvoudige (test)versie zonder bewerkingen van de bronbestanden. Het maakt gebruik van dummy-datasets.
